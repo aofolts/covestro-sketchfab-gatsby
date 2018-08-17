@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="25px" viewBox="0 0 34 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>cylindrical-cells</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="cylindrical-cells" fill="#939598" fill-rule="nonzero">
+            <g id="cylinder_cell_home">
+                <g id="Group">
+                    <circle id="Oval" cx="3.1" cy="3.2" r="2.9"></circle>
+                    <circle id="Oval" cx="9.8" cy="3.2" r="2.9"></circle>
+                    <circle id="Oval" cx="16.6" cy="3.2" r="2.9"></circle>
+                    <circle id="Oval" cx="23.4" cy="3.2" r="2.9"></circle>
+                    <circle id="Oval" cx="30.2" cy="3.2" r="2.9"></circle>
+                    <circle id="Oval" cx="3.1" cy="15.6" r="2.9"></circle>
+                    <circle id="Oval" cx="9.8" cy="15.6" r="2.9"></circle>
+                    <circle id="Oval" cx="16.6" cy="15.6" r="2.9"></circle>
+                    <circle id="Oval" cx="23.4" cy="15.6" r="2.9"></circle>
+                    <circle id="Oval" cx="30.2" cy="15.6" r="2.9"></circle>
+                    <circle id="Oval" cx="6.5" cy="9.4" r="2.9"></circle>
+                    <circle id="Oval" cx="13.2" cy="9.4" r="2.9"></circle>
+                    <circle id="Oval" cx="20" cy="9.4" r="2.9"></circle>
+                    <circle id="Oval" cx="26.8" cy="9.4" r="2.9"></circle>
+                    <circle id="Oval" cx="6.5" cy="21.8" r="2.9"></circle>
+                    <circle id="Oval" cx="13.2" cy="21.8" r="2.9"></circle>
+                    <circle id="Oval" cx="20" cy="21.8" r="2.9"></circle>
+                    <circle id="Oval" cx="26.8" cy="21.8" r="2.9"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
