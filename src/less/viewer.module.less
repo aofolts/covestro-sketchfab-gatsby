@@ -1,0 +1,44 @@
+@import 'vars.less';
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  .ml(@m);
+}
+
+.viewer {
+  width: 100%;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+  background: #000;
+}
+
+.iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top:0;
+  left:0;
+}
+
+.viewToggle {
+  .abs; 
+  .l; .b;
+  .fs(@p);
+  .bd(@bd solid @blue); .bg(white);
+}
+
+.viewToggleItem {
+  .ib; 
+  .pad(1em);
+  .cur(pointer);
+
+  &+.viewToggleItem {
+    .bdl(@bd solid @blue);
+  }
+}
+
+.selectedViewToggleItem {
+  .bg(@blue); .c(white);
+}

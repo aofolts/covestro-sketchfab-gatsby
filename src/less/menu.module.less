@@ -1,0 +1,76 @@
+@import 'vars.less';
+
+.menu {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.item {
+  .fs(@p2);
+  text-transform: uppercase;
+  background: @mlgrey;
+  appearance: none;
+  padding: .5em 1em;
+  .pl(1.5em);
+  .bdl(@bd * 4 solid @purple);
+  .mb(5px);
+  .cur;
+
+  &:hover {
+    .bg(darken(@mlgrey,5%));
+  }
+}
+
+.itemLevel1 {
+  .bdc(@purple);
+}
+
+.itemLevel2 {
+  .bdc(@pink);
+  .ml(1em);
+}
+
+.itemLevel3 {
+  .bdc(@yellow);
+  .ml(2em);
+}
+
+.itemLevel4 {
+  .bdc(@green);
+  .ml(3em);
+}
+
+.itemHeader {
+  .dsp(flex); .jcsb; .aic;
+}
+
+.itemIsHidden {
+  .hide;
+}
+
+.itemSubMenuToggle {
+  .fs(2em);
+  .ta(center);
+  .wh(1em); 
+  .lh(.75em);
+  .bd(@bd solid @dgrey);
+  .br(100px);
+  .o(.33);
+}
+
+.selectedItem { 
+  .bg(darken(@mlgrey,20%));
+}
+
+.subMenuIsHidden {
+  .hide;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 2.4rem;
+}

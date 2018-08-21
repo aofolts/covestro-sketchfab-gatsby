@@ -1,32 +1,17 @@
-import React from 'react'
-import css from '../src/less/categories.less'
-import {withAppContext} from '../components/AppContext'
-import PropTypes from 'prop-types'
+import React,{Component} from 'react'
+import css from '../less/categories.module.less'
+import {withContext} from '../components/Context'
+import CategoryCard from '../components/CategoryCard'
 
-class Categories extends React.Component {
-
-  constructor(props) {
-    super(props)
-
-    const boundMethods = [
-    ]
-
-    boundMethods.forEach(method => this[method] = this[method].bind(this))
-  }
+class Categories extends Component {
 
   render() {
-    const cats = this.props.context.items
-  
-    const catsEl = cats.map(cat => {
-      const {id,name,image} = cat,
-            setCategory = this.props.context.setCategory
+    const {categoriesByName} = this.props.context
 
-      return (
-        <div key={id} className={css.card} onClick={() => setCategory(cat)}>
-          <h3>{name}</h3>
-          <img className={css.image} src={image.fields.file.url}/>
-        </div>
-      )
+    const catsEl = categoriesByName.map(cat => {
+      
+
+      return <CategoryCard key={cat.id} item={cat}/>
     })
   
     return (
@@ -39,4 +24,4 @@ class Categories extends React.Component {
   }
 }
 
-export default withAppContext(Categories)
+export default withContext(Categories)

@@ -1,16 +1,35 @@
 import React from 'react'
-import { withAppContext } from '../components/AppContext';
-import css from '../src/less/viewer.less'
+import { withContext } from '../components/Context';
+import css from '../less/viewer.module.less'
 
 class Viewer extends React.Component {
 
   constructor(props) {
     super(props)
+  
+    this.state = {
+      viewerKey: props.context.activeViewer.viewerKey
+    }
+  }
+
+  componentDidUpdate(prevProps,prevState) {
+    // Reset viewerKey
+    if (prevProps.context.activeViewer.viewerKey !== this.props.context.activeViewer.viewerKey) {
+      this.setViewerKey(this.props.context.activeViewer.viewerKey)
+    }
+  }
+
+  setViewerKey = key => {
+    if (key !== this.state.viewerKey) {
+      this.setState({
+        viewerKey: key
+      })
+    }
   }
 
   render() {
     const {activeViewer} = this.props.context,
-          {viewerKey} = activeViewer
+          {viewerKey} = this.state
           
     const atts = {
             frameBorder: 0,
@@ -19,15 +38,57 @@ class Viewer extends React.Component {
             autoPlay: true
           },
           src = `https://sketchfab.com/models/${viewerKey}/embed?autostart=1`
+
+    const ViewToggle = props => {
+      const {explodedViewerKey,sectionViewerKey} = activeViewer
+
+      const ToggleItem = props => {
+        const {viewerKey:key,label} = props
+
+        const classes = [
+          css.viewToggleItem,
+          key === this.state.viewerKey ? css.selectedViewToggleItem : null
+        ].join(' ')
+
+        return (
+          <div className={classes} onClick={() => this.setViewerKey(key)}>
+            {label}
+          </div>
+        )
+      }
+
+      if (explodedViewerKey || sectionViewerKey) {
+        const compact = <ToggleItem viewerKey={this.props.context.activeViewer.viewerKey} label='Compact'/>
+
+        const exploded = explodedViewerKey
+          ? <ToggleItem viewerKey={explodedViewerKey} label='Exploded'/>
+          : null
+
+        const section = sectionViewerKey
+          ? <ToggleItem viewerKey={sectionViewerKey} label='Section'/>
+          : null
+
+        return (
+          <div className={css.viewToggle}>
+            {compact}
+            {exploded}
+            {section}
+          </div>
+        )
+      }
+
+      return null
+    }
           
     return (
       <div className={css.container}>
         <div className={css.viewer}>
-          <iframe className={css.iframe} src={src} {...atts}/>
+          <iframe className={css.iframe} src={src} {...atts} title={`${activeViewer.name} Model`}/>
+          <ViewToggle/>
         </div>
       </div>
     )
   }
 }
 
-export default withAppContext(Viewer)
+export default withContext(Viewer)

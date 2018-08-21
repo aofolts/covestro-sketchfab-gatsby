@@ -1,33 +1,56 @@
 import React from 'react'
-import { withAppContext } from '../components/AppContext';
-import css from '../src/less/menu.less'
+import { withContext } from '../components/Context';
+import css from '../less/menu.module.less'
+import MenuItem from '../components/MenuItem'
 
 class Menu extends React.Component {
 
+  constructor(props) {
+    super(props) 
+
+    const {
+      activeSubCategory:subCat,
+      viewerMenusBySubCategoryId: viewers
+    } = props.context
+
+    const menu        = viewers[subCat.id]
+    const openChildId = menu[0].id
+
+    this.state = {
+      menu,
+      openChildId
+    }
+  }
+
+  setOpenChildId = id => {
+    this.setState({
+      openChildId: id
+    })
+  }
+
   render() {
-    const items = this.props.context.activeMenu.map(item => {
-      const classes = [
-        css.item
-      ].join(' ')
+    const {menu,openChildId} = this.state
 
-      console.log(item)
+    console.log(openChildId)
 
+    const menuEl = menu.map(item => {
       return (
-        <li key={item.id} className={classes}>
-          <div className={css.itemHeader}>
-            <h2 className={css.itemTitle}>{item.name}</h2>
-            {item.subMenu ? <div className={css.toggle}/> : null}
-          </div>
-        </li>
+        <MenuItem 
+          key={item.id} 
+          model={item} 
+          level={1} 
+          openItemId={openChildId}
+          setOpenItemId={this.setOpenChildId}
+        /> 
       )
     })
 
     return (
-      <div id='menu' className={css.menu}>
-        {items}
+      <div id='modelsMenu' className={css.menu}>
+        {menuEl}
       </div>
     )
   }
 }
 
-export default withAppContext(Menu)
+export default withContext(Menu)

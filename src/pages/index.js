@@ -1,39 +1,21 @@
-import React from 'react'
-import '../src/less/global.less'
-import css from '../src/less/app.less'
-import Header from '../components/Header.js'
-import Categories from '../components/Categories'
-import SubCategories from '../components/SubCategories'
-import Viewer from '../components/Viewer'
-import {AppContext} from '../components/AppContext.js'
-import Menu from '../components/Menu'
-import {getAppItems} from '../components/Data'
+import React, {Component} from 'react'
+import {getAppData} from '../components/Data'
+import {Context} from '../components/Context'
+import Header from '../components/Header'
+import Body from '../components/Body'
+import Typekit from 'react-typekit'
+import '../less/global.less'
 
-class IndexPage extends React.Component {
-
-  static async getInitialProps() {
-    
-    
-    const items = await getAppItems(categories)
-
-    return {
-     categories,
-     items,
-     subCategories,
-     viewers
-    }
-  } 
+class Index extends Component {
 
   constructor(props) {
     super(props)
 
-    const items = []
-
     const boundMethods = [
-      'getCategoryById',
-      'getViewerById',
-      'setCategory',
-      'setSubCategory',
+      'getItemById',
+      'setActiveViewerById',
+      'setCategoryById',
+      'setSubCategoryById',
       'setTitle',
       'setView'
     ]
@@ -43,63 +25,73 @@ class IndexPage extends React.Component {
     this.state = {
       activeCategory: false,
       activeMenu: false,
+      activeSubCategories: [],
       activeSubCategory: false,
-      categories: props.categories,
-      getCategoryById: this.getCategoryById,
-      getSubCategoryById: this.getSubCategoryById,
-      items: props.items,
-      setCategory: this.setCategory,
-      setSubCategory: this.setSubCategory,
+      categoriesByName: [],
+      getItemById: this.getItemById,
+      itemsById: {},
+      setActiveViewerById: this.setActiveViewerById,
+      setCategoryById: this.setCategoryById,
+      setSubCategoryById: this.setSubCategoryById,
+      setViewerById: this.setViewerById,
       setTitle: this.setTitle,
-      subCategories: this.props.subCategories,
       view: 'categories',
-      viewers: props.viewers,
+      viewerMenusBySubCategoryId: props.viewerMenusBySubCategoryId,
       setView: this.setView,
+      subCategoriesByName: [],
       title: null
     }
   }
 
-  getCategoryById(id) {
-    return this.state.categories.find(cat => cat.sys.id === id)
+  componentDidMount() {
+    getAppData()
+      .then(data => this.setState({
+        ...data
+      }))
   }
 
-  getSubCategoryById(id) {
-    return this.state.subCategories.find(cat => {
-      return cat.sys.id === id
+  getItemById(id) {
+    return this.state.itemsById[id] || false
+  }
+
+  setActiveViewerById(id) {
+    this.setState({
+      activeViewer: this.getItemById(id)
     })
   }
 
-  getViewerById(id) {
-    return this.state.viewers.find(cat => {
-      return cat.sys.id === id
-    })
-  }
+  setCategoryById(id) {
+    const {subCategoriesByName:subCats} = this.state,
+          activeCategory = this.getItemById(id)
 
-  setCategory(cat) {
-    const subCat = cat.subMenu[0]
-    
-    const newState = {
-      activeCategory: cat,
-      title: subCat.name,
+    const activeSubCategories = subCats.filter(cat => {
+      return cat.category === id
+    })
+  
+    this.setState({
+      activeCategory,
+      activeSubCategories,
+      title: activeCategory.name,
       view: 'subCategories'
-    }
+    })
 
-    // Skip to viewer if only one subCategory
-    if (cat.subMenu.length === 1) {
-      newState.activeViewer = subCat.subMenu[0]
-      newState.view = 'viewer'
-      this.setSubCategory(subCat)
+    if (activeSubCategories.length === 1) {
+      this.setSubCategoryById(activeSubCategories[0].id)
     }
-
-    this.setState(newState)
   }
 
-  setSubCategory(subCat) {
+  setSubCategoryById(id) {
+    const subCat = this.getItemById(id)
+
+    const viewers = this.state.viewersByName.filter(item => {
+      return item.parentViewer === false && item.subCategory === id
+    })
+    
     this.setState({
       activeSubCategory: subCat,
-      activeMenu: subCat.subMenu,
-      activeViewer: subCat.subMenu[0],
-      title: subCat.name
+      activeViewer: viewers[0],
+      title: subCat.name,
+      view: 'models'
     })
   }
 
@@ -116,35 +108,14 @@ class IndexPage extends React.Component {
   }
 
   render() {
-    const view = this.state.view
-
-    const body = (view => {
-      switch (view) {
-        case 'categories': return <Categories/>;
-        case 'subCategories': return <SubCategories/>;
-        case 'viewer': return (
-          <div className={css.appBody}>
-            <Menu/>
-            <Viewer/>
-          </div>
-        );
-      }
-    })(view)
-
-    const appClasses = [
-      css.app
-    ].join(' ')
-
     return (
-      
-        <AppContext.Provider value={this.state}>
-          <div id='app' className={appClasses}>
-            <Header/>
-            {body}
-          </div>
-        </AppContext.Provider>
+      <Context.Provider value={this.state}>
+        <Typekit kidId='vuh7fwm'/>
+        <Header/>
+        <Body/>
+      </Context.Provider>
     )
   }
 }
 
-export default IndexPage
+export default Index

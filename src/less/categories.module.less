@@ -1,0 +1,32 @@
+@import 'reference.less';
+
+.wrap {
+  width: 100%;
+  max-width: 100rem;
+  margin: 0 auto;
+  .pad(@m);
+  .grid(@cols:3); 
+} 
+
+.image {
+  .mt(@m);
+  width: 100%;
+} 
+
+.card {
+  .bd(2px solid @mlgrey);
+  .bg(white);
+  .pad(@m);
+  margin: var(--h);
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    border-color: @blue;
+    color: @blue;
+  }
+}
+
+.cardTitle {
+  .fs(@h3);
+}
