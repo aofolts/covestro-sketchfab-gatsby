@@ -5,8 +5,8 @@ import css from '../less/categories.module.less'
 class CategoryCard extends Component {
 
   render() {
-    const {id,name,image} = this.props.item,
-          setCategoryById = this.props.context.setCategoryById
+    const {setCategoryById,getItemById} = this.props.context,
+          {id,name,image} = getItemById(this.props.itemId)
 
     const handleClick = () => {
       setCategoryById(id)

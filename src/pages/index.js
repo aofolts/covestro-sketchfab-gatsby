@@ -11,17 +11,6 @@ class Index extends Component {
   constructor(props) {
     super(props)
 
-    const boundMethods = [
-      'getItemById',
-      'setActiveViewerById',
-      'setCategoryById',
-      'setSubCategoryById',
-      'setTitle',
-      'setView'
-    ]
-
-    boundMethods.forEach(method => this[method] = this[method].bind(this))
-
     this.state = {
       activeCategory: false,
       activeMenu: false,
@@ -46,45 +35,40 @@ class Index extends Component {
   componentDidMount() {
     getAppData()
       .then(data => this.setState({
-        ...data
+        ...data,
+        categoriesByName: data.categories.sort((a,b) => a.name < b.name ? -1 : 1)
       }))
   }
 
-  getItemById(id) {
+  getItemById = id => {
     return this.state.itemsById[id] || false
   }
 
-  setActiveViewerById(id) {
+  setActiveViewerById = id => {
     this.setState({
       activeViewer: this.getItemById(id)
     })
   }
 
-  setCategoryById(id) {
-    const {subCategoriesByName:subCats} = this.state,
-          activeCategory = this.getItemById(id)
+  setCategoryById = id => {
+    const cat = this.getItemById(id)
 
-    const activeSubCategories = subCats.filter(cat => {
-      return cat.category === id
-    })
-  
     this.setState({
-      activeCategory,
-      activeSubCategories,
-      title: activeCategory.name,
+      activeCategory: cat,
+      title: cat.name,
       view: 'subCategories'
     })
 
-    if (activeSubCategories.length === 1) {
-      this.setSubCategoryById(activeSubCategories[0].id)
+    if (cat.subMenu.length === 1) {
+      this.setSubCategoryById(cat.subMenu[0])
     }
   }
 
-  setSubCategoryById(id) {
+  setSubCategoryById = id => {
     const subCat = this.getItemById(id)
 
-    const viewers = this.state.viewersByName.filter(item => {
-      return item.parentViewer === false && item.subCategory === id
+    const viewers = subCat.subMenu.map(id => {
+      return this.getItemById(id)
     })
     
     this.setState({
@@ -95,13 +79,13 @@ class Index extends Component {
     })
   }
 
-  setTitle(title) {
+  setTitle = title => {
     this.setState({
       title: title
     })
   }
 
-  setView(view) {
+  setView = view => {
     this.setState({
       view: view
     })
@@ -110,9 +94,11 @@ class Index extends Component {
   render() {
     return (
       <Context.Provider value={this.state}>
-        <Typekit kidId='vuh7fwm'/>
-        <Header/>
-        <Body/>
+        <div id='app'>
+          <Typekit kidId='vuh7fwm'/>
+          <Header/>
+          <Body/>
+        </div>
       </Context.Provider>
     )
   }

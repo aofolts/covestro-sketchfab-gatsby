@@ -6,12 +6,10 @@ import CategoryCard from '../components/CategoryCard'
 class Categories extends Component {
 
   render() {
-    const {categoriesByName} = this.props.context
+    const {categoriesByName:cats} = this.props.context
 
-    const catsEl = categoriesByName.map(cat => {
-      
-
-      return <CategoryCard key={cat.id} item={cat}/>
+    const catsEl = cats.map(cat => {
+      return <CategoryCard key={cat.id} itemId={cat.id}/>
     })
   
     return (

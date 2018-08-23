@@ -29,9 +29,9 @@
   display: flex;
   .aic;
   .bdb(@bd solid @mlgrey);
-  .mb(@l);
   .bg(white);
   .pad(0 @m 0 0);
+  .h(@headerHeight);
 
   .logo {
     width: @l;
@@ -40,8 +40,12 @@
 
   .logoContainer {
     .w(@viewerNavWidth);
-    .mar(@m @m @m 0);
+    .mar(@m 0);
     .bdr(@bd solid @mlgrey);
+  }
+
+  .title {
+    .ml(@m);
   }
 }
 
@@ -66,6 +70,7 @@
 }
 
 .categorySelectActiveItem {
-  .bdb(@bd solid fade(@blue,50%));
+  .bdb(@bd solid @blue);
+  .cur(not-allowed); .pe(none);
 }
  

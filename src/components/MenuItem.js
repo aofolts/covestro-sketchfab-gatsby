@@ -7,23 +7,28 @@ class MenuItem extends React.Component {
   constructor(props) {
     super(props)
 
-    const childrenByName = props.context.viewersByName.filter(item => {
-      return item.parentViewer === props.model.id
-    })
-  
+    const item = this.props.context.getItemById(props.itemId)
+
+    const openChildId = item.subMenu && item.subMenu.length > 0 
+      ? item.subMenu.find(id => {
+        return this.props.context.getItemById(id).subMenu
+      }) : null
+
     this.state = {
-      childrenByName,
+      item,
       openItemId: props.openItemId,
-      openChildId: childrenByName.length > 0 ? childrenByName[0].id : null
+      openChildId
     }
   }
 
   hasChildren = () => {
-    return this.state.childrenByName.length > 0
+    const subMenu = this.state.item.subMenu
+
+    return subMenu && subMenu.length > 0
   }
 
   isOpen = () => {
-    return this.state.openItemId === this.props.model.id
+    return this.state.openItemId === this.state.item.id
   }
 
   componentDidUpdate(prevProps) {
@@ -46,13 +51,13 @@ class MenuItem extends React.Component {
 
     const isOpen = !this.isOpen()
 
-    this.props.setOpenItemId(isOpen ? this.props.model.id : false)
+    this.props.setOpenItemId(isOpen ? this.state.item.id : false)
   }
 
   render() {
     const isOpen = this.isOpen()
     const {level,context} = this.props
-    const {name,id} = this.props.model
+    const {name,id} = this.state.item
 
     const {
       activeViewer,
@@ -72,11 +77,13 @@ class MenuItem extends React.Component {
     }
 
     const SubMenu = props => {
-      const itemsEl = this.state.childrenByName.map(item => {
+      if (!this.hasChildren()) return null
+
+      const itemsEl = this.state.item.subMenu.map(id => {
         return (
           <MenuItem 
-            key={item.id} 
-            model={item} 
+            key={id} 
+            itemId={id} 
             level={level + 1} 
             context={context}
             openItemId={this.state.openChildId}
@@ -110,7 +117,7 @@ class MenuItem extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={classes} level={level} onClick={handleClick}>
+        <div className={classes} onClick={handleClick}>
           <div className={css.itemHeader}>
             <h3 className={css.itemTitle}>{name}</h3>
             {subMenuToggle}

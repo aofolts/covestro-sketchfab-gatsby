@@ -9,18 +9,33 @@ class Menu extends React.Component {
     super(props) 
 
     const {
-      activeSubCategory:subCat,
-      viewerMenusBySubCategoryId: viewers
+      activeSubCategory:subCat
     } = props.context
 
-    const menu        = viewers[subCat.id]
-    const openChildId = menu[0].id
+    const openChildId = subCat.subMenu[0]
 
     this.state = {
-      menu,
       openChildId
     }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {id:prevId} = prevProps.context.activeSubCategory
+    const {id:newId}  = this.props.context.activeSubCategory
+
+    if (prevId !== newId) {
+      const id = this.props.context.activeSubCategory.subMenu.find(id => {
+        const item = this.props.context.getItemById(id)
+
+        return item.subMenu && item.subMenu.length > 0
+      })
+
+      this.setState({
+        openChildId: id
+      })
+    }
+  }
+  
 
   setOpenChildId = id => {
     this.setState({
@@ -29,15 +44,14 @@ class Menu extends React.Component {
   }
 
   render() {
-    const {menu,openChildId} = this.state
+    const {openChildId} = this.state
+    const {activeSubCategory:subCat} = this.props.context
 
-    console.log(openChildId)
-
-    const menuEl = menu.map(item => {
+    const menuEl = subCat.subMenu.map(id => {
       return (
         <MenuItem 
-          key={item.id} 
-          model={item} 
+          key={id} 
+          itemId={id} 
           level={1} 
           openItemId={openChildId}
           setOpenItemId={this.setOpenChildId}

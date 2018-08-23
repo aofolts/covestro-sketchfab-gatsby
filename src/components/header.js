@@ -24,7 +24,7 @@ class Header extends React.Component {
       const selectItems = categoriesByName.map(item => {
         const itemClasses = [
           css.categorySelectItem,
-          item.id === activeCategory.id ? css.categorySelectActiveItem : null
+          item.id === activeCategory.id ? css.categorySelectActiveItem : null,
         ].join(' ')
 
         return (

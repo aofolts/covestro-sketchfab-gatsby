@@ -6,10 +6,10 @@ import SubCategoryCard from '../components/SubCategoryCard'
 class SubCategories extends React.Component {
 
   render() {
-    const {activeSubCategories:cats} = this.props.context
+    const {activeCategory:cat} = this.props.context
   
-    const catsEl = cats.map(cat => {
-      return <SubCategoryCard key={cat.id} item={cat}/>
+    const catsEl = cat.subMenu.map(id => {
+      return <SubCategoryCard key={id} itemId={id}/>
     })
   
     return (

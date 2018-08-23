@@ -8,7 +8,9 @@ class Viewer extends React.Component {
     super(props)
   
     this.state = {
-      viewerKey: props.context.activeViewer.viewerKey
+      viewerKey: props.context.activeViewer.viewerKey,
+      viewerHeight:'100px',
+      viewerWidth:'177px'
     }
   }
 
@@ -22,7 +24,7 @@ class Viewer extends React.Component {
   setViewerKey = key => {
     if (key !== this.state.viewerKey) {
       this.setState({
-        viewerKey: key
+        viewerKey: key 
       })
     }
   }
@@ -37,7 +39,7 @@ class Viewer extends React.Component {
             allow: 'autoplay; fullscreen; vr;',
             autoPlay: true
           },
-          src = `https://sketchfab.com/models/${viewerKey}/embed?autostart=1`
+          src = `https://sketchfab.com/models/${viewerKey}/embed?autostart=1&autospin=0.2&amp;autostart=1&amp;ui_controls=0&amp;ui_infos=0`
 
     const ViewToggle = props => {
       const {explodedViewerKey,sectionViewerKey} = activeViewer
@@ -79,12 +81,29 @@ class Viewer extends React.Component {
 
       return null
     }
+
+    const Description = () => {
+      const desc = activeViewer.description
+      
+      if (desc) {
+        return (
+          <div className={css.modelDescription}>
+            {desc}
+          </div>
+        )
+      }
+
+      return null
+    }
           
     return (
-      <div className={css.container}>
+      <div id='viewerContainer' className={css.container}>
         <div className={css.viewer}>
-          <iframe className={css.iframe} src={src} {...atts} title={`${activeViewer.name} Model`}/>
-          <ViewToggle/>
+          <div className={css.iframeContainer}>
+            <iframe className={css.iframe} src={src} {...atts} title={`${activeViewer.name} Model`}/>
+            <Description/>
+            <ViewToggle/>
+          </div>
         </div>
       </div>
     )

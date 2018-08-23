@@ -1,21 +1,5 @@
 import * as contentful from 'contentful'
 
-function getItemChildren(item,viewers) {
-  const parentId = item.id
-
-  const kids = viewers.filter(item => {
-    if (item.parentViewer === parentId) {
-      item.subMenu = getItemChildren(item,viewers)
-
-      return true
-    }
-
-    return false
-  })
-
-  return kids
-}
-
 async function getAppData() {
   const client = contentful.createClient({
     space: 'wozd62c9qvac',
@@ -50,43 +34,15 @@ async function getAppData() {
     return obj
   },{})
 
-  // Store viewer menus
-  const viewerMenusBySubCategoryId = viewers.reduce((obj,item) => {
-    if (item.parentViewer === false) {
-      Array.isArray(obj[item.subCategory])
-        ? obj[item.subCategory].push(item)
-        : obj[item.subCategory] = [item]
-    }
-
-    item.subMenu = getItemChildren(item,viewers)
-
-    return obj
-  },{})
-
-  // Alphabetize categories and subCategories for easy iteration
-  const categoriesByName = categories.sort((a,b) => {
-    return a.name < b.name ? -1 : 1
-  })
-
-  const subCategoriesByName = subCategories.sort((a,b) => {
-    return a.name < b.name ? -1 : 1
-  })
-
-  const viewersByName = viewers.sort((a,b) => {
-    return a.name < b.name ? -1 : 1
-  })
-
   return {
-    itemsById,
-    categoriesByName,
-    subCategoriesByName,
-    viewersByName,
-    viewerMenusBySubCategoryId
+    categories,
+    itemsById
   }
 }
 
 function formatItem(item) {
-  const type = item.sys.contentType.sys.id,
+  const {subMenu} = item.fields,
+        type = item.sys.contentType.sys.id,
         id   = item.sys.id
 
   const newItem = {
@@ -95,22 +51,49 @@ function formatItem(item) {
     type
   }
 
+  if (Array.isArray(subMenu) && subMenu.length > 0) {
+    newItem.subMenu = subMenu.map(item => item.sys.id)
+  }
+
   if (['category','subCategory'].includes(type)) {
     newItem.image = item.fields.image
   }
-  if (type === 'subCategory') {
-    newItem.category = item.fields.category.sys.id
-  } 
   else if (type === 'viewer') {
     newItem.viewerKey = item.fields.viewerKey
-    newItem.subCategory       = item.fields.subCategory.sys.id
     newItem.explodedViewerKey = item.fields.explodedViewerKey || false
     newItem.sectionViewerKey  = item.fields.sectionViewerKey || false
-    newItem.parentViewer      = item.fields.parentViewer ? item.fields.parentViewer.sys.id : false
+    newItem.description       = item.fields.description || false
   }
 
   return newItem
 }
+
+// function formatItem2(item) {
+//   const type = item.sys.contentType.sys.id,
+//         id   = item.sys.id
+
+//   const newItem = {
+//     id,
+//     name: item.fields.name,
+//     type
+//   }
+
+//   if (['category','subCategory'].includes(type)) {
+//     newItem.image = item.fields.image
+//   }
+//   if (type === 'subCategory') {
+//     newItem.category = item.fields.category.sys.id
+//   } 
+//   else if (type === 'viewer') {
+//     newItem.viewerKey = item.fields.viewerKey
+//     newItem.subCategory       = item.fields.subCategory.sys.id
+//     newItem.explodedViewerKey = item.fields.explodedViewerKey || false
+//     newItem.sectionViewerKey  = item.fields.sectionViewerKey || false
+//     newItem.parentViewer      = item.fields.parentViewer ? item.fields.parentViewer.sys.id : false
+//   }
+
+//   return newItem
+// }
 
 export {
   getAppData

@@ -24,9 +24,11 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write '**/*.js'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
     "prettier": "^1.14.2"
   },
   "repository": {
