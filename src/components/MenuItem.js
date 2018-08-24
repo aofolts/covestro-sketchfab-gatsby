@@ -9,15 +9,10 @@ class MenuItem extends React.Component {
 
     const item = this.props.context.getItemById(props.itemId)
 
-    const openChildId = item.subMenu && item.subMenu.length > 0 
-      ? item.subMenu.find(id => {
-        return this.props.context.getItemById(id).subMenu
-      }) : null
-
     this.state = {
       item,
       openItemId: props.openItemId,
-      openChildId
+      openChildId: false
     }
   }
 
@@ -47,11 +42,13 @@ class MenuItem extends React.Component {
   }
 
   toggleSubMenu = e => {
-    e.stopPropagation();
-
     const isOpen = !this.isOpen()
 
     this.props.setOpenItemId(isOpen ? this.state.item.id : false)
+  }
+
+  openSubMenu = () => {
+    this.props.setOpenItemId(this.state.item.id)
   }
 
   render() {
@@ -74,6 +71,7 @@ class MenuItem extends React.Component {
 
     const handleClick = () => {
       setActiveViewerById(id)
+      this.toggleSubMenu()
     }
 
     const SubMenu = props => {

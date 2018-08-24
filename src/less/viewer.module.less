@@ -1,9 +1,7 @@
 @import 'vars.less';
 
 .container {
-  width: 100%; .mw(120rem);
-  .h;
-  .ml(@m);
+  .w; .h; .ml(auto); .mw(150rem);
 }
 
 .viewer {
@@ -13,16 +11,16 @@
 }
 
 .modelDescription {
-  .w(25rem); 
+  .w(50rem); 
   .abs; .r; .t; .z(10);
   .pad(@m);
   .bg(fade(white,75%));
-  .fs(@p2);
+  .fs(@p);
+  .lh(1.2em);
 }
 
 .iframeContainer {
   .w; .pb(56.25%);
-  .bg(black);
 }
 
 .iframe {
@@ -34,7 +32,7 @@
 
 .viewToggle {
   .abs; 
-  .l; .b;
+  .r; .b;
   .fs(@p);
   .bd(@bd solid @blue); .bg(white);
 }

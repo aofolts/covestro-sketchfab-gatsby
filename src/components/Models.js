@@ -9,8 +9,8 @@ class Models extends Component {
   render() {
     return (
       <div id='models' className={css.models}>
-        <Menu/>
         <Viewer/>
+        <Menu/>
       </div>
     )
   }

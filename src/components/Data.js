@@ -36,7 +36,7 @@ async function getAppData() {
 
   return {
     categories,
-    itemsById
+    itemsById,
   }
 }
 
@@ -67,33 +67,6 @@ function formatItem(item) {
 
   return newItem
 }
-
-// function formatItem2(item) {
-//   const type = item.sys.contentType.sys.id,
-//         id   = item.sys.id
-
-//   const newItem = {
-//     id,
-//     name: item.fields.name,
-//     type
-//   }
-
-//   if (['category','subCategory'].includes(type)) {
-//     newItem.image = item.fields.image
-//   }
-//   if (type === 'subCategory') {
-//     newItem.category = item.fields.category.sys.id
-//   } 
-//   else if (type === 'viewer') {
-//     newItem.viewerKey = item.fields.viewerKey
-//     newItem.subCategory       = item.fields.subCategory.sys.id
-//     newItem.explodedViewerKey = item.fields.explodedViewerKey || false
-//     newItem.sectionViewerKey  = item.fields.sectionViewerKey || false
-//     newItem.parentViewer      = item.fields.parentViewer ? item.fields.parentViewer.sys.id : false
-//   }
-
-//   return newItem
-// }
 
 export {
   getAppData

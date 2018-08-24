@@ -2,24 +2,48 @@
 
 .wrap {
   width: 100%;
-  max-width: 80rem;
   margin: 0 auto;
   .pad(@m);
-  .grid(@cols:4); 
+  .h;
+  --gap: 2rem;
+  .fs(0);
 } 
+
+.innerWrap {
+  .mar(0 auto); .mw; 
+  .dsp(flex); flex-wrap: wrap;
+  .w(100rem);
+
+  @media screen 
+    and (min-device-width: 1200px) 
+    and (max-device-width: 1600px) 
+    and (-webkit-min-device-pixel-ratio: 1) { 
+    .w(95rem);
+  }
+
+  @media only screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1024px) {
+      .w(85rem);
+    }
+}
 
 .image {
   .mt(@m);
-  width: 100%;
+  width: 66%;
 } 
 
 .card {
+  .w(calc(50% ~'-' 2rem));
+  .va(top);
   .bd(2px solid @mlgrey);
+  .ib;
+  .mar(1rem);
   .bg(white);
   .pad(@m);
-  margin: var(--h);
   text-align: center;
   cursor: pointer;
+  .lh(1.2em);
 
   &:hover {
     border-color: @blue;
@@ -28,5 +52,5 @@
 }
 
 .cardTitle {
-  .fs(@h3);
+  .fs(@h3); .lh(1.2em);
 }

@@ -13,8 +13,8 @@ class SubCategories extends React.Component {
     })
   
     return (
-      <div className={css.categories}>
-        <div className={css.wrap}>
+      <div id='categoriesGrid' className={css.wrap}>
+        <div id='categoriesInnerGrid' className={css.innerWrap}>
           {catsEl}
         </div>
       </div>
