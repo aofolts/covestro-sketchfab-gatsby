@@ -29,7 +29,8 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
-    "prettier": "^1.14.2"
+    "prettier": "^1.14.2",
+    "yetti": "^1.0.4"
   },
   "repository": {
     "type": "git",

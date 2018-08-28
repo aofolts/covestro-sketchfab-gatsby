@@ -6,16 +6,26 @@ class CategoryCard extends Component {
 
   render() {
     const {setCategoryById,getItemById} = this.props.context,
-          {id,name,image} = getItemById(this.props.itemId)
+          {id,name,image,icon} = getItemById(this.props.itemId)
 
     const handleClick = () => {
       setCategoryById(id)
-    }
+    } 
+
+    const imageClasses = [
+      css.image,
+      css.categoryImage
+    ].join(' ')
+
+    const iconEl = icon 
+      ? <img className={css.categoryIcon} src={icon.fields.file.url} alt={name}/> 
+      : null
 
     return (
       <div className={css.card} onClick={handleClick}>
         <h3 className={css.cardTitle}>{name}</h3> 
-        <img className={css.image} src={image.fields.file.url} alt={name}/>
+        <img className={imageClasses} src={image.fields.file.url} alt={name}/>
+        {iconEl}
       </div> 
     )
   }

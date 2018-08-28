@@ -98,13 +98,9 @@ class Viewer extends React.Component {
           
     return (
       <div id='viewerContainer' className={css.container}>
-        <div className={css.viewer}>
-          <div className={css.iframeContainer}>
-            <iframe className={css.iframe} src={src} {...atts} title={`${activeViewer.name} Model`}/>
-            <Description/>
-            <ViewToggle/>
-          </div>
-        </div>
+        <iframe className={css.iframe} src={src} {...atts} title={`${activeViewer.name} Model`}/>
+        <Description/>
+        <ViewToggle/>
       </div>
     )
   }

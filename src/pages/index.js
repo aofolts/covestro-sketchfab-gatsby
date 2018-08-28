@@ -5,6 +5,7 @@ import Header from '../components/Header'
 import Body from '../components/Body'
 import Typekit from 'react-typekit'
 import '../less/global.less'
+import css from '../less/app.module.less'
 
 class Index extends Component {
 
@@ -94,8 +95,8 @@ class Index extends Component {
   render() {
     return (
       <Context.Provider value={this.state}>
-        <div id='app'>
-          <Typekit kidId='vuh7fwm'/>
+        <div className={css.app}>
+          <Typekit kitId='vuh7fwm'/>
           <Header/>
           <Body/>
         </div>

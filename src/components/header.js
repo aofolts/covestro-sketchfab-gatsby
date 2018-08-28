@@ -22,14 +22,23 @@ class Header extends React.Component {
 
     const CategorySelect = () => {
       const selectItems = categoriesByName.map(item => {
-        const itemClasses = [
-          css.categorySelectItem,
-          item.id === activeCategory.id ? css.categorySelectActiveItem : null,
+        const iconClasses = [
+          css.categoryIcon,
+          item.id === activeCategory.id ? css.activeCategoryIcon : null
         ].join(' ')
 
+        const iconSrc = item.id === activeCategory.id
+          ? item.selectedIcon.fields.file.url
+          : item.icon.fields.file.url
+
         return (
-          <li key={item.id} className={itemClasses} onClick={() => setCategoryById(item.id)}>
-            {item.name}
+          <li key={item.id} className={css.categoryItem}>
+            <img 
+              className={iconClasses} 
+              src={iconSrc} 
+              alt='icon'
+              onClick={() => setCategoryById(item.id)}
+            />
           </li>
         )
       })
@@ -45,7 +54,7 @@ class Header extends React.Component {
       ? (
         <div className={css.secondaryNav}>
           <h1 className={css.title}>{title}</h1>
-          {view === 'models' ? <CategorySelect/> : null}
+          <CategorySelect/>
         </div>
       )
       : null

@@ -55,6 +55,10 @@ function formatItem(item) {
     newItem.subMenu = subMenu.map(item => item.sys.id)
   }
 
+  if (type === 'category') {
+    newItem.icon = item.fields.icon
+    newItem.selectedIcon = item.fields.selectedIcon
+  }
   if (['category','subCategory'].includes(type)) {
     newItem.image = item.fields.image
   }

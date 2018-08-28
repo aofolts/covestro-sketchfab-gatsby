@@ -61,9 +61,15 @@ class MenuItem extends React.Component {
       setActiveViewerById
     } = this.props.context
 
+    const handleToggleClick = e => {
+      e.stopPropagation()
+
+      this.toggleSubMenu()
+    }
+
     const subMenuToggle = this.hasChildren()
       ? (
-        <div className={css.itemSubMenuToggle} onClick={this.toggleSubMenu}>
+        <div className={css.itemSubMenuToggle} onClick={handleToggleClick}>
           {isOpen ? '-' : '+'}
         </div>
       )
@@ -71,7 +77,10 @@ class MenuItem extends React.Component {
 
     const handleClick = () => {
       setActiveViewerById(id)
-      this.toggleSubMenu()
+      
+      if (!this.isOpen()) {
+        this.openSubMenu()
+      }
     }
 
     const SubMenu = props => {
@@ -102,16 +111,16 @@ class MenuItem extends React.Component {
           </div>
         )
       }
-    
+     
       return null
-    }
+    } 
 
     const classes = [
       css.item,
       css[`itemLevel${level}`],
       activeViewer.id === id ? css.selectedItem : null,
       isOpen ? css.itemIsOpen : css.itemIsClosed
-    ].join(' ')
+    ].join(' ') 
 
     return (
       <React.Fragment>
@@ -125,6 +134,6 @@ class MenuItem extends React.Component {
       </React.Fragment>
     )
   }
-}
+} 
 
 export default withContext(MenuItem)

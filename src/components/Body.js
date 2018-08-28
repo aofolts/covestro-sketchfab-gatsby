@@ -23,11 +23,7 @@ const View = props => {
 class Body extends Component {
 
   render() {
-    return (
-      <div id='body'>
-        <View/>
-      </div>
-    )
+    return <View/>
   }
 }
 
