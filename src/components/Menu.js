@@ -2,49 +2,54 @@ import React from 'react'
 import { withContext } from '../components/Context';
 import css from '../less/menu.module.less'
 import MenuItem from '../components/MenuItem'
+import {MenuContext} from '../components/MenuContext'
 
 class Menu extends React.Component {
 
   constructor(props) {
     super(props) 
 
-    const {
-      activeSubCategory:subCat
-    } = props.context
-
-    const openChildId = subCat.subMenu[0]
-
     this.state = {
-      openChildId
+      openItemIds: [],
+      setOpenedItemId: this.setOpenedItemId
     }
+  } 
+
+  componentDidMount() {
+    const {activeViewer:viewer} = this.props.context
+
+    this.setOpenedItemId(viewer.id)
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {id:prevId} = prevProps.context.activeSubCategory
-    const {id:newId}  = this.props.context.activeSubCategory
-
-    if (prevId !== newId) {
-      const id = this.props.context.activeSubCategory.subMenu.find(id => {
-        const item = this.props.context.getItemById(id)
-
-        return item.subMenu && item.subMenu.length > 0
-      })
-
-      this.setState({
-        openChildId: id
-      })
+    if (prevProps.context.activeSubCategory !== this.props.context.activeSubCategory) {
+      this.setOpenedItemId(this.props.context.activeViewer.id)
     }
   }
   
 
-  setOpenChildId = id => {
+  getOpenItemsByDescendentId = (id,items) => {
+    const item     = this.props.context.getItemById(id),
+          parentId = item.parentModelId
+
+    items.push(id)
+
+    if (parentId) {
+      items = this.getOpenItemsByDescendentId(parentId,items)
+    }
+    
+    return items
+  }
+
+  setOpenedItemId = id => {
+    const openItemIds = this.getOpenItemsByDescendentId(id,[])
+
     this.setState({
-      openChildId: id
+      openItemIds
     })
   }
 
   render() {
-    const {openChildId} = this.state
     const {activeSubCategory:subCat} = this.props.context
 
     const menuEl = subCat.subMenu.map(id => {
@@ -52,17 +57,17 @@ class Menu extends React.Component {
         <MenuItem 
           key={id} 
           itemId={id} 
-          level={1} 
-          openItemId={openChildId}
-          setOpenItemId={this.setOpenChildId}
+          level={1}
         /> 
       )
     })
 
     return (
-      <div id='modelsMenu' className={css.menu}>
-        {menuEl}
-      </div>
+      <MenuContext.Provider value={this.state}>
+        <div id='modelsMenu' className={css.menu}>
+          {menuEl}
+        </div>
+      </MenuContext.Provider>
     )
   }
 }

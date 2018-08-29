@@ -1,7 +1,7 @@
 @import 'reference.less';
 
 .wrap {
-  width: 100%;
+  .mw; .w(140rem);
   margin: 0 auto;
   .pad(@m);
   .of(hidden);
@@ -10,15 +10,15 @@
 } 
 
 .innerWrap {
-  .mar(0 auto); .mw; 
+  .mar(0 auto);
   .dsp(flex); flex-wrap: wrap;
-  .w(100rem);
+  .w; .mw(100rem);
 
   @media screen 
     and (min-device-width: 1200px) 
     and (max-device-width: 1600px) 
     and (-webkit-min-device-pixel-ratio: 1) { 
-    .w(95rem);
+    .mw(120rem);
   }
 
   @media only screen 

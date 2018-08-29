@@ -13,6 +13,7 @@ class Index extends Component {
     super(props)
 
     this.state = {
+      activeViewerId: false,
       activeCategory: false,
       activeMenu: false,
       activeSubCategories: [],
@@ -35,10 +36,12 @@ class Index extends Component {
 
   componentDidMount() {
     getAppData()
-      .then(data => this.setState({
-        ...data,
-        categoriesByName: data.categories.sort((a,b) => a.name < b.name ? -1 : 1)
-      }))
+      .then(data => {
+        this.setState({
+          ...data,
+          categoriesByName: data.categories.sort((a,b) => a.name < b.name ? -1 : 1)
+        })
+      })
   }
 
   getItemById = id => {

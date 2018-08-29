@@ -14,7 +14,7 @@ class Categories extends Component {
   
     return (
       <div id='categoriesGrid' className={css.wrap}>
-        <div id='categoriesInnerGrid' className={css.innerWrap}>
+        <div id='categoriesInnerGrid' className={css.categoriesInnerWrap}>
           {catsEl}
         </div>
       </div>

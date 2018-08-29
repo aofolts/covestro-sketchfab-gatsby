@@ -1,6 +1,7 @@
 import React from 'react'
 import { withContext } from '../components/Context';
 import css from '../less/menu.module.less'
+import {withMenuContext} from '../components/MenuContext'
 
 class MenuItem extends React.Component {
 
@@ -10,9 +11,7 @@ class MenuItem extends React.Component {
     const item = this.props.context.getItemById(props.itemId)
 
     this.state = {
-      item,
-      openItemId: props.openItemId,
-      openChildId: false
+      item
     }
   }
 
@@ -23,32 +22,20 @@ class MenuItem extends React.Component {
   }
 
   isOpen = () => {
-    return this.state.openItemId === this.state.item.id
-  }
-
-  componentDidUpdate(prevProps) {
-    // If open sibling id has changed
-    if (prevProps.openItemId !== this.props.openItemId) {
-      this.setState({
-        openItemId: this.props.openItemId
-      })
-    }
-  }
-  
-  setOpenChildId = id => {
-    this.setState({
-      openChildId: id
-    })
+    return this.props.menuContext.openItemIds.includes(this.state.item.id)
   }
 
   toggleSubMenu = e => {
-    const isOpen = !this.isOpen()
+    const isOpen = !this.isOpen(),
+          id = isOpen ? this.state.item.id : this.state.item.parentModelId
 
-    this.props.setOpenItemId(isOpen ? this.state.item.id : false)
+    this.props.menuContext.setOpenedItemId(id)
   }
 
   openSubMenu = () => {
-    this.props.setOpenItemId(this.state.item.id)
+    if (!this.isOpen() && this.hasChildren()) {
+      this.props.menuContext.setOpenedItemId(this.state.item.id)
+    }
   }
 
   render() {
@@ -75,14 +62,6 @@ class MenuItem extends React.Component {
       )
       : null
 
-    const handleClick = () => {
-      setActiveViewerById(id)
-      
-      if (!this.isOpen()) {
-        this.openSubMenu()
-      }
-    }
-
     const SubMenu = props => {
       if (!this.hasChildren()) return null
 
@@ -93,8 +72,7 @@ class MenuItem extends React.Component {
             itemId={id} 
             level={level + 1} 
             context={context}
-            openItemId={this.state.openChildId}
-            setOpenItemId={this.setOpenChildId}
+            menuContext={this.props.menuContext}
           />
         )
       })
@@ -119,8 +97,13 @@ class MenuItem extends React.Component {
       css.item,
       css[`itemLevel${level}`],
       activeViewer.id === id ? css.selectedItem : null,
-      isOpen ? css.itemIsOpen : css.itemIsClosed
+      this.isOpen() ? css.itemIsOpen : css.itemIsClosed
     ].join(' ') 
+
+    const handleClick = e => {
+      setActiveViewerById(id)
+      this.openSubMenu()
+    }
 
     return (
       <React.Fragment>
@@ -136,4 +119,6 @@ class MenuItem extends React.Component {
   }
 } 
 
-export default withContext(MenuItem)
+export default withMenuContext(
+  withContext(MenuItem)
+)

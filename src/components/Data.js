@@ -41,7 +41,7 @@ async function getAppData() {
 }
 
 function formatItem(item) {
-  const {subMenu} = item.fields,
+  const {subMenu,parentViewer} = item.fields,
         type = item.sys.contentType.sys.id,
         id   = item.sys.id
 
@@ -63,6 +63,7 @@ function formatItem(item) {
     newItem.image = item.fields.image
   }
   else if (type === 'viewer') {
+    newItem.parentModelId = parentViewer ? parentViewer.sys.id : false
     newItem.viewerKey = item.fields.viewerKey
     newItem.explodedViewerKey = item.fields.explodedViewerKey || false
     newItem.sectionViewerKey  = item.fields.sectionViewerKey || false
