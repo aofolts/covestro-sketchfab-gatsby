@@ -39,7 +39,7 @@ class Viewer extends React.Component {
             allow: 'autoplay; fullscreen; vr;',
             autoPlay: true
           },
-          src = `https://sketchfab.com/models/${viewerKey}/embed?autostart=1&autospin=0.2&amp;autostart=1&amp;ui_controls=0&amp;ui_infos=0`
+          src = `https://sketchfab.com/models/${viewerKey}/embed?autostart=1&amp;autostart=1&amp;ui_controls=0&amp;ui_infos=0`
 
     const ViewToggle = props => {
       const {explodedViewerKey,sectionViewerKey} = activeViewer
