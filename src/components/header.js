@@ -3,6 +3,8 @@ import {withContext} from './Context';
 import css from '../less/header.module.less'
 import logo from '../images/logo.png'
 
+// Changed capitalization
+
 class Header extends React.Component {
 
   render() {
