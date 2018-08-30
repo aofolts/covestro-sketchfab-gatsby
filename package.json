@@ -1,8 +1,8 @@
 {
-  "name": "gatsby-starter-default",
-  "description": "Gatsby default starter",
+  "name": "covestro-sketchfab-gatsby",
+  "description": "A Gatsby.js frontend for viewing Covestro Sketchfab models.",
   "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Andrew Folts <andrew@sherpadesign.co>",
   "dependencies": {
     "contentful": "^7.0.0",
     "gatsby": "next",
@@ -34,11 +34,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gatsbyjs/gatsby-starter-default.git"
+    "url": "git+https://github.com/aofolts/covestro-sketchfab-gatsby.git"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default/issues"
+    "url": "https://github.com/aofolts/covestro-sketchfab-gatsby/issues"
   },
-  "homepage": "https://github.com/gatsbyjs/gatsby-starter-default#readme",
+  "homepage": "https://github.com/aofolts/covestro-sketchfab-gatsby#readme",
   "main": "gatsby-browser.js"
 }
